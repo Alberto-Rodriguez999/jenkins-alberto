@@ -46,7 +46,6 @@ while True:
                 print("Ese jugador no ha marcado goles o no está en el registro.")
                 break 
             else:
-                # CORREGIDO: Usamos la variable num_goles para no romper el diccionario
                 print(f"--> {jugadorP} ha marcado {goles[jugadorP]} goles.")
                 break
 
