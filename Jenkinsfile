@@ -1,39 +1,28 @@
 pipeline {
-    agent any 
-
-    stages {
-        stage('1. Descargar Código') {
-            steps {
-
-                checkout scm 
-            }
-        }
-
-        stage('2. Construir Imagen Docker') {
-            steps {
-                script {
-
-                    sh 'docker build -t futbol-app:v1 .'
-                }
-            }
-        }
-
-        stage('3. Prueba de Existencia') {
-            steps {
-                script {
-
-                    sh 'docker images | grep futbol-app'
-                }
-            }
-        }
-    }
+    agent any
     
-    post {
-        success {
-            echo '¡Éxito! La aplicación se construyó correctamente.'
+    stages {
+        stage('1. Descargar de GitHub') {
+            steps {
+                cleanWs()
+
+                git branch: 'main', url: 'https://github.com/Alberto-Rodriguez999/jenkins-alberto.git'
+            }
         }
-        failure {
-            echo 'Algo salió mal. Revisa los logs.'
+
+        stage('2. Construir Imagen') {
+            steps {
+
+                sh 'docker build -t alberto-app .'
+            }
+        }
+
+        stage('3. Test Automático') {
+            steps {
+
+                
+                sh 'echo "4" | docker run -i --rm alberto-app'
+            }
         }
     }
 }
